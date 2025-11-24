@@ -3,6 +3,7 @@ import torch
 from torch.utils.data import Dataset
 from sklearn.preprocessing import LabelEncoder
 
+
 class WeatherDataset(Dataset):
     """
     Weather Type Classification dataset.
