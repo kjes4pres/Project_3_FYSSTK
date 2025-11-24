@@ -50,13 +50,14 @@ class WeatherNN(nn.Module):
     def forward(self, x):
         return self.model(x)
     
-    def train(self, x, y):
-        optimizer = optim.Adam(self.parameters(), lr=0.001)
+    def train(self, x, y, lr: float):
+        optimizer = optim.Adam(self.parameters(), lr=lr)
         optimizer.zero_grad()
         outputs = self.forward(x)
         loss = self.cost(outputs, y)
         loss.backward()
         optimizer.step()
+        return loss.item()
     
     def pred(self, x):
         return self.model(x)
