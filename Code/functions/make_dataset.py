@@ -21,13 +21,14 @@ class WeatherDataset(Dataset):
         # Apply encoding
         # String to numerical conversion
         for col in cat_cols:
-            self.data[col] = self.encoders[col].fit_transform(self.data[col])
+            self.data[col] = self.encoders[col].fit_transform(self.data[col]).astype(int)
 
         # Store features and labels  
         self.X = self.data.drop(columns=["Weather Type"]).values.astype("float32")
         self.y = self.data["Weather Type"].values.astype("int64")
 
         self.transform = transform
+        self.cat_cols = cat_cols
 
     def __len__(self):
         return len(self.data)
@@ -40,3 +41,9 @@ class WeatherDataset(Dataset):
             X = self.transform(X)
 
         return X, y
+    
+    # Method for decoding categorical values
+    def decode_value(self, col, encoded_value):
+        """Decode a single encoded categorical value."""
+        encoder = self.encoders[col]
+        return encoder.inverse_transform([encoded_value])[0]
