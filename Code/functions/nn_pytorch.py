@@ -26,7 +26,7 @@ class WeatherNN(nn.Module):
         # Input layer
         layers.append(nn.Linear(input_dim, hidden_dim))
         layers.append(act)
-
+        
         # Hidden layers
         for h in range(num_hidden_layers - 1):
             layers.append(nn.Linear(hidden_dim, hidden_dim))
