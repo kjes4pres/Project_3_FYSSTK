@@ -8,8 +8,8 @@ class WeatherNN(nn.Module):
         self,
         input_dim: int,
         output_dim: int,
-        hidden_dim: int,
-        num_hidden_layers: int,
+        hidden_dim: int = None,
+        num_hidden_layers: int = None,
         activation: str = None
     ):  
         
@@ -17,32 +17,39 @@ class WeatherNN(nn.Module):
         
 
         self.cost = nn.CrossEntropyLoss()
-        self.output_layer = nn.Softmax()
+        #self.output_layer = nn.Softmax()
         
-        # Choose activation function
-        activations = {
-            "relu": nn.ReLU(),
-            "lrelu": nn.LeakyReLU(),
-            "sigmoid": nn.Sigmoid(),
-            "tanh": nn.Tanh(),
-            "elu": nn.ELU()
-        }
-        act = activations[activation.lower()]
+        if num_hidden_layers:
+            # Choose activation function
+            activations = {
+                "relu": nn.ReLU(),
+                "lrelu": nn.LeakyReLU(),
+                "sigmoid": nn.Sigmoid(),
+                "tanh": nn.Tanh(),
+                "elu": nn.ELU()
+            }
+            act = activations[activation.lower()]
 
-        layers = []
+            layers = []
 
-        # Input layer
-        layers.append(nn.Linear(input_dim, hidden_dim))
-        layers.append(act)
-        
-        # Hidden layers
-        for h in range(num_hidden_layers - 1):
-            layers.append(nn.Linear(hidden_dim, hidden_dim))
+            # Input layer
+            layers.append(nn.Linear(input_dim, hidden_dim))
             layers.append(act)
+        
+            # Hidden layers
+            for h in range(num_hidden_layers - 1):
+                layers.append(nn.Linear(hidden_dim, hidden_dim))
+                layers.append(act)
 
-        # Output layer
-        layers.append(nn.Linear(hidden_dim, output_dim))
-        layers.append(nn.Softmax(dim=1))
+            # Output layer
+            layers.append(nn.Linear(hidden_dim, output_dim))
+            #layers.append(nn.Softmax(dim=1))
+
+        
+        else:
+            layers = []
+            # Input layer
+            layers.append(nn.Linear(input_dim, output_dim))
 
         self.model = nn.Sequential(*layers)
     
@@ -52,16 +59,40 @@ class WeatherNN(nn.Module):
     def forward(self, x):
         return self.model(x)
     
-    def train(self, x, y, lr: float):
-        optimizer = optim.Adam(self.parameters(), lr=lr)
-        optimizer.zero_grad()
-        outputs = self.forward(x)
-        loss = self.cost(outputs, y)
-        loss.backward()
-        optimizer.step()
-        return loss.item()
-    
-    def pred(self, x):
-        return self.model(x)
+    def train_model(self, train_loader, lr: float, epochs: int, lmb: float=None, reg_type: str = None):
+        """
+        reg_type: None, "L1", or "L2"
+        """
+        if reg_type == "L2":
+            optimizer = optim.Adam(self.parameters(), lr=lr, weight_decay=lmb)
+        else:
+            optimizer = optim.Adam(self.parameters(), lr=lr)
 
-        
+        for e in range(epochs):
+            for X, y in train_loader:
+                optimizer.zero_grad()
+                outputs = self.forward(X)
+                loss = self.cost(outputs, y)
+
+                if reg_type == "L1":
+                    penalty = 0
+                    for param in self.parameters():
+                        penalty += torch.sum(torch.abs(param))
+                    loss += lmb * penalty
+                    
+                loss.backward()
+                optimizer.step()
+    
+    def evaluate(self, loader):
+        self.eval()
+        correct = 0
+        total = 0
+
+        with torch.no_grad():
+            for X, y in loader:
+                outputs=self.forward(X) 
+                preds = outputs.argmax(dim=1) 
+                correct += (preds == y).sum().item()
+                total += y.size(0)
+
+        return correct / total
