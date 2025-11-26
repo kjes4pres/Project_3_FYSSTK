@@ -63,10 +63,8 @@ class WeatherNN(nn.Module):
         """
         reg_type: None, "L1", or "L2"
         """
-        if reg_type == "L2":
-            optimizer = optim.Adam(self.parameters(), lr=lr, weight_decay=lmb)
-        else:
-            optimizer = optim.Adam(self.parameters(), lr=lr)
+        self.train()
+        optimizer = optim.Adam(self.parameters(), lr=lr)
 
         for e in range(epochs):
             for X, y in train_loader:
@@ -75,10 +73,12 @@ class WeatherNN(nn.Module):
                 loss = self.cost(outputs, y)
 
                 if reg_type == "L1":
-                    penalty = 0
-                    for param in self.parameters():
-                        penalty += torch.sum(torch.abs(param))
-                    loss += lmb * penalty
+                    L1_norm = sum(p.abs().sum() for p in self.parameters())
+                    loss += lmb * L1_norm
+
+                if reg_type == "L2":
+                    L2_norm = sum(p.pow(2).sum() for p in self.parameters())
+                    loss += lmb * L2_norm
                     
                 loss.backward()
                 optimizer.step()
