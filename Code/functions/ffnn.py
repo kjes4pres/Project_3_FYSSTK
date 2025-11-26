@@ -54,8 +54,8 @@ class NeuralNetwork:
         np.random.seed(seed)
         i_size = network_input_size
         for layer_output_size in layer_output_sizes:
-            W = np.random.randn(i_size, layer_output_size)
-            b = np.random.randn(layer_output_size, )
+            W = np.random.randn(i_size, layer_output_size) 
+            b = np.random.randn(layer_output_size, ) 
             layers.append((W, b))
             i_size = layer_output_size
 
@@ -196,12 +196,11 @@ class NeuralNetwork:
     
     # Training with stochastic gradient descent.
     def train_SGD(self, input: np.ndarray, target: np.ndarray, epochs: int = 1000, learning_rate: float = 0.1, batch_size: int = 100, optimizer: str = "gd") -> None:
-
+        
         batches = int(input.shape[0] / batch_size)
 
         for epoch in range(epochs):
             for batch in range(batches):
-
                 index = np.random.choice(input.shape[0], batch_size, replace=True)
                 X_batch = input[index]
                 y_batch = target[index]

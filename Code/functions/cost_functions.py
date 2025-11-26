@@ -1,7 +1,7 @@
 import numpy as np
 
 def cross_entropy(predict, target):
-    return -np.sum(target*np.log(predict))
+    return -np.sum(target*np.log(predict + 1e-10))
 
 def cross_entropy_der(predict, target):
-    return target/predict*(-1)
+    return target/(predict + 1e-10)*(-1)
