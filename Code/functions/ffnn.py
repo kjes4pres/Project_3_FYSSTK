@@ -209,8 +209,7 @@ class NeuralNetwork:
                 if optimizer == "Adam":
                     self.update_weights_Adam(grads, learning_rate)
                 else:
-                    self.update_weights(grads, learning_rate)
-
+                    self.update_weights(grads, learning_rate) 
             self.training_info["Cost_history"].append(self.cost(input,target))
 
     
