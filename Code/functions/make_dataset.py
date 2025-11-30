@@ -1,7 +1,7 @@
 import pandas as pd
 import torch
 from torch.utils.data import Dataset
-from sklearn.preprocessing import LabelEncoder
+from sklearn.preprocessing import LabelEncoder, MinMaxScaler
 
 
 class WeatherDataset(Dataset):
@@ -27,6 +27,11 @@ class WeatherDataset(Dataset):
         # Store features and labels  
         self.X = self.data.drop(columns=["Weather Type"]).values.astype("float32")
         self.y = self.data["Weather Type"].values.astype("int64")
+
+        # Scale the data
+        transformer = MinMaxScaler()
+        self.X = transformer.fit_transform(self.X)
+        self.transformer = transformer
 
         self.transform = transform
         self.cat_cols = cat_cols
