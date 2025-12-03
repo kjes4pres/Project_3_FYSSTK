@@ -17,7 +17,6 @@ class WeatherNN(nn.Module):
         
 
         self.cost = nn.CrossEntropyLoss()
-        #self.output_layer = nn.Softmax()
         
         if num_hidden_layers:
             # Choose activation function
@@ -43,8 +42,6 @@ class WeatherNN(nn.Module):
 
             # Output layer
             layers.append(nn.Linear(hidden_dim, output_dim))
-            #layers.append(nn.Softmax(dim=1))
-
         
         else:
             layers = []
