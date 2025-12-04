@@ -6,6 +6,9 @@ https://chatgpt.com/share/6926f91b-06e0-800c-8c74-a354933f5672
 Predictions handling with PyTorch:
 https://chatgpt.com/share/6930aec5-4894-800c-bad5-37966b78f692
 
+Set class names in plots:
+https://chatgpt.com/share/6931a961-7310-800c-8390-5ea9ff29a00e
+
 The LLM responses are used only as inspiration or guidance. 
 Statements given by the LLM has been quality controlled by the authors.
 
