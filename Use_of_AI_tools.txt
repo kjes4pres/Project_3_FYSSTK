@@ -3,6 +3,9 @@ Links to specific conversations with ChatGTP:
 Text annotation colors in heatmaps:
 https://chatgpt.com/share/6926f91b-06e0-800c-8c74-a354933f5672
 
+Predictions handling with PyTorch:
+https://chatgpt.com/share/6930aec5-4894-800c-bad5-37966b78f692
+
 The LLM responses are used only as inspiration or guidance. 
 Statements given by the LLM has been quality controlled by the authors.
 
