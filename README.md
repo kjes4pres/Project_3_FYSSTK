@@ -11,7 +11,12 @@ A `requirements.txt` file is located in the repository. To reproduce our results
 The repository is organized as follows:
 
 Functions and modules used for obtaining the results:
-* `Code/functions/....py`
+* `Code/functions/activation_funcs.py`: Activation functions and their derivatives for our own-built FFNN.
+* `Code/functions/cost_functions.py`: Cross entropy cost function and its derivative for our own-built FFNN.
+* `Code/functions/ffnn.py`: Our own-built FFNN class.
+* `Code/functions/make_dataset.py`: Class for the PyTorch built NN for reading in the dataset in a PyTorch-compatible way.
+* `Code/functions/nn_pytorch.py`: PyTorch based NN class.
 
 Notebooks for running the code and plotting:
-* `Code/main/....ipynb`
+* `Code/main/LogisticRegression.ipynb`: Results for logistic regression using FFNN and PyTorch NN with one layer, on weather class prediction.
+* `Code/main/NeuralNetworks.ipynb`: Results for weather type prediction using FFNN and PyTorch NN.
