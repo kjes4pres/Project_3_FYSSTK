@@ -4,6 +4,31 @@ import torch.optim as optim
 from typing import List
 
 class WeatherNN(nn.Module):
+    """
+    A configurable feed-forward neural network through PyTorch.
+
+    Parameters
+    ----------
+    input_dim : int
+        Number of the input features.
+    output_dim : int
+        Number of output classes.
+    hidden_dim : int, optional
+        Size of each hidden layer. Required if `num_hidden_layers` is specified.
+    num_hidden_layers : int, optional
+        Number of hidden layers. If None, the model reduces to a single linear
+        layer mapping `input_dim` to `output_dim`. Can be used for simple logistic regression.
+    activation : str, optional
+        Activation function to use in hidden layers. Options: {"relu", "lrelu", "sigmoid"}.
+        Required if `num_hidden_layers` is specified.
+
+    Attributes
+    ----------
+    cost : nn.CrossEntropyLoss
+        Loss function used for training. Additional functions can be added as needed.
+    model : nn.Sequential
+        Layers are added to this sequential model based on the initialization parameters.
+    """
     def __init__(
         self,
         input_dim: int,
@@ -48,14 +73,33 @@ class WeatherNN(nn.Module):
         self.model = nn.Sequential(*layers)
     
     def get_model(self):
+        """
+        Returns the underlying PyTorch model.
+        """
         return self.model
     
     def forward(self, x):
+        """
+        Forward pass through the network.
+        """
         return self.model(x)
     
     def train_model(self, train_loader, lr: float, epochs: int, lmb: float=None, reg_type: str = None):
         """
-        reg_type: None, "L1", or "L2"
+        Train the neural network.
+
+        Parameters
+        ----------
+        train_loader : DataLoader
+            DataLoader for training data.
+        lr : float
+            Learning rate for the optimizer.
+        epochs : int
+            Number of training epochs.
+        lmb : float, optional
+            Regularization parameter. Required if `reg_type` is specified.
+        reg_type : str, optional
+            Type of regularization to apply. Options: {"L1", "L2"}.
         """
         self.train()
         optimizer = optim.Adam(self.parameters(), lr=lr)
@@ -78,6 +122,14 @@ class WeatherNN(nn.Module):
                 optimizer.step()
     
     def evaluate(self, loader):
+        """
+        Evaluate the model's accuracy on a given dataset.
+
+        Parameters
+        ----------
+        loader : DataLoader
+            DataLoader for the dataset to evaluate.
+        """
         self.eval()
         correct = 0
         total = 0
