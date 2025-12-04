@@ -14,7 +14,6 @@ class WeatherNN(nn.Module):
     ):  
         
         super().__init__()
-        
 
         self.cost = nn.CrossEntropyLoss()
         
@@ -23,9 +22,7 @@ class WeatherNN(nn.Module):
             activations = {
                 "relu": nn.ReLU(),
                 "lrelu": nn.LeakyReLU(),
-                "sigmoid": nn.Sigmoid(),
-                "tanh": nn.Tanh(),
-                "elu": nn.ELU()
+                "sigmoid": nn.Sigmoid()
             }
             act = activations[activation.lower()]
 
