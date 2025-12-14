@@ -9,6 +9,9 @@ https://chatgpt.com/share/6930aec5-4894-800c-bad5-37966b78f692
 Set class names in plots:
 https://chatgpt.com/share/6931a961-7310-800c-8390-5ea9ff29a00e
 
+Debugging, plotting and some text refinement:
+https://chatgpt.com/gg/v/692438a779d4819687cf0bfee836c17c?token=8BunF8LMP3z_WV-sr8RBtg
+
 The LLM responses are used only as inspiration or guidance. 
 Statements given by the LLM has been quality controlled by the authors.
 
