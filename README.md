@@ -20,3 +20,4 @@ Functions and modules used for obtaining the results:
 Notebooks for running the code and plotting:
 * `Code/main/LogisticRegression.ipynb`: Results for logistic regression using FFNN and PyTorch NN with one layer, on weather class prediction.
 * `Code/main/NeuralNetworks.ipynb`: Results for weather type prediction using FFNN and PyTorch NN.
+* `Code/main/Weather_cls_dataset.ipynb`: Overview of the weather type dataset used in training and evaluation.
